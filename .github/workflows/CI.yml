@@ -16,6 +16,6 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore DemoApi/DemoAPI.csproj
+      run: dotnet restore ./DemoAPI/DemoAPI.csproj
     - name: Build
-      run: dotnet build --no-restore DemoApi/DemoAPI.csproj
+      run: dotnet build --no-restore ./DemoAPI/DemoAPI.csproj
