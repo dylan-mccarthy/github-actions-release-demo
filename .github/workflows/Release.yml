@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: |
+        dotnet restore DemoAPI/DemoAPI.csproj
+    - name: Build
+      run: |
+        dotnet publish DemoAPI/DemoAPI.csproj -c Release -o "output/DemoAPI"
+        7z a -tzip "./DemoAPI.zip" "./output/DemoAPI/*"
+    - name: Publish
+      uses: softprops/action-gh-release@v1
+      with: 
+        files: "DemoAPI.zip"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
