@@ -8,6 +8,8 @@ jobs:
  create-release:
     name: Create Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
         with: 
@@ -36,5 +38,4 @@ jobs:
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
           artifacts: "DemoAPI.zip"
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          token: ${{ secrets.PAT }}
