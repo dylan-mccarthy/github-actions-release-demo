@@ -1,0 +1,35 @@
+name: CD
+
+on: 
+  push:
+    branches: [ main ]
+  workflow_disptach:
+jobs:
+ create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: |
+          dotnet restore ./DemoAPI/DemoAPI.csproj
+      - name: Build
+        run: |
+          dotnet publish ./DemoAPI/DemoAPI.csproj -c Release -o "./output/DemoAPI"
+          7z a -tzip "./DemoAPI.zip" "./output/DemoAPI/*"
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+          artifacts: "DemoAPI.zip"
