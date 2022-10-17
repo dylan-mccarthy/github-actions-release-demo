@@ -3,7 +3,7 @@ name: CD
 on: 
   push:
     branches: [ main ]
-  workflow_disptach:
+  workflow_dispatch:
 jobs:
  create-release:
     name: Create Release
