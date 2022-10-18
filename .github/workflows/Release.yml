@@ -20,5 +20,5 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Extract Artifact
       run: |
-        7z x -o DemoAPI DemoAPI.zip
+        7z x DemoAPI.zip -o./DemoAPI
       
