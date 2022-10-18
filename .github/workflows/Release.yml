@@ -18,4 +18,7 @@ jobs:
         version: 'tags/${{ github.event.release.tag_name }}'
         file: "DemoAPI.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Extract Artifact
+      run: |
+        7z x -o DemoAPI DemoAPI.zip
       
