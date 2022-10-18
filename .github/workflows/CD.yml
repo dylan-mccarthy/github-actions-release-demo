@@ -3,8 +3,11 @@ name: CD
 on: 
   push:
     branches: [ main ]
-    paths: 'DemoAPI/**'
+    paths: 
+      - 'DemoAPI/**'
   workflow_dispatch:
+  repository_dispatch:
+    types: [CD]
 jobs:
  create-release:
     name: Create Release
